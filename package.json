@@ -1,0 +1,41 @@
+{
+  "name": "calc-framerate",
+  "version": "0.0.1",
+  "description": "Calculating frame rate at used by requestAnimationFrame",
+  "main": "dist/calc_framerate.js",
+  "uglify": "dist/calc_framerate.min.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artprojectteam/calc-framerate.git"
+  },
+  "keywords": [
+    "framerate",
+    "javascript"
+  ],
+  "author": "Nobuyuki Kondo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/artprojectteam/calc-framerate/issues"
+  },
+  "homepage": "https://github.com/artprojectteam/calc-framerate",
+  "engine": {
+    "node": ">= 6.11.0",
+    "npm": ">= 3.10.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "browser-sync": "^2.18.13",
+    "cross-conf-env": "^1.1.2",
+    "eslint": "^4.9.0",
+    "npm-run-all": "^4.1.1",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-uglify": "^2.0.1",
+    "uglify-save-license": "^0.4.1"
+  }
+}
