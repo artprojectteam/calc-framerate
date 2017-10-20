@@ -12,10 +12,217 @@ https://github.com/artprojectteam/calc-framerate
   (global.CalcFrameRate = factory());
 }(this, (function () { 'use strict';
 
-  var index = (function () {
-    console.log('test');
-  });
+  var asyncGenerator = function () {
+    function AwaitValue(value) {
+      this.value = value;
+    }
 
-  return index;
+    function AsyncGenerator(gen) {
+      var front, back;
+
+      function send(key, arg) {
+        return new Promise(function (resolve, reject) {
+          var request = {
+            key: key,
+            arg: arg,
+            resolve: resolve,
+            reject: reject,
+            next: null
+          };
+
+          if (back) {
+            back = back.next = request;
+          } else {
+            front = back = request;
+            resume(key, arg);
+          }
+        });
+      }
+
+      function resume(key, arg) {
+        try {
+          var result = gen[key](arg);
+          var value = result.value;
+
+          if (value instanceof AwaitValue) {
+            Promise.resolve(value.value).then(function (arg) {
+              resume("next", arg);
+            }, function (arg) {
+              resume("throw", arg);
+            });
+          } else {
+            settle(result.done ? "return" : "normal", result.value);
+          }
+        } catch (err) {
+          settle("throw", err);
+        }
+      }
+
+      function settle(type, value) {
+        switch (type) {
+          case "return":
+            front.resolve({
+              value: value,
+              done: true
+            });
+            break;
+
+          case "throw":
+            front.reject(value);
+            break;
+
+          default:
+            front.resolve({
+              value: value,
+              done: false
+            });
+            break;
+        }
+
+        front = front.next;
+
+        if (front) {
+          resume(front.key, front.arg);
+        } else {
+          back = null;
+        }
+      }
+
+      this._invoke = send;
+
+      if (typeof gen.return !== "function") {
+        this.return = undefined;
+      }
+    }
+
+    if (typeof Symbol === "function" && Symbol.asyncIterator) {
+      AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
+        return this;
+      };
+    }
+
+    AsyncGenerator.prototype.next = function (arg) {
+      return this._invoke("next", arg);
+    };
+
+    AsyncGenerator.prototype.throw = function (arg) {
+      return this._invoke("throw", arg);
+    };
+
+    AsyncGenerator.prototype.return = function (arg) {
+      return this._invoke("return", arg);
+    };
+
+    return {
+      wrap: function (fn) {
+        return function () {
+          return new AsyncGenerator(fn.apply(this, arguments));
+        };
+      },
+      await: function (value) {
+        return new AwaitValue(value);
+      }
+    };
+  }();
+
+
+
+
+
+  var classCallCheck = function (instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  };
+
+  var _NOW_ = window.performance && (performance.now || performance.mozNow || performance.oNow || performance.webkitNow);
+
+  /**
+   * @example
+   * var frame = new FrameRate(30.0, 4000)
+   *
+   * function render(){
+   *   requestAnimationFrame(render);
+   *
+   *   var asc = frame.onAsc();
+   *   if(asc === 0){
+   *     // frame start 0 -> n
+   *   }
+   *
+   *   var desc = frame.onDesc();
+   *   if(desc === 0){
+   *     // frame start n -> 0
+   *   }
+   * }
+   *
+   * render();
+   */
+
+  var _class = function () {
+    /**
+     * setting
+     * @param {number} [fps=30.0]
+     * @param {number} [speed=30]
+     */
+    function _class(fps, speed) {
+      classCallCheck(this, _class);
+
+      var _speed = this._checkArgument(speed, 4000);
+
+      this._fps = this._checkArgument(fps, 30.0);
+      this._start = this._getTime();
+      this._sheet = _speed / 1000 * this._fps >> 0;
+    }
+
+    /**
+     * argument check
+     * @param arg {*} initialize argument
+     * @param def {number} default setting number
+     * @returns {number}
+     * @private
+     */
+
+
+    _class.prototype._checkArgument = function _checkArgument(arg, def) {
+      return arg !== undefined && typeof arg === 'number' ? arg : def;
+    };
+
+    /**
+     * get now time
+     * @returns {*|number}
+     * @private
+     */
+
+
+    _class.prototype._getTime = function _getTime() {
+      return _NOW_ && _NOW_.call(performance) || new Date().getTime();
+    };
+
+    /**
+     * start to 0 -> n
+     * @returns {number}
+     */
+
+
+    _class.prototype.onAsc = function onAsc() {
+      var time = this._getTime();
+      return Math.floor((time - this._start) / (1000.0 / this._fps) % this._sheet);
+    };
+
+    /**
+     * start to n -> 0
+     * @returns {number}
+     */
+
+
+    _class.prototype.onDesc = function onDesc() {
+      var frame = this.onAsc();
+      return Math.floor(this._sheet - 1 - frame);
+    };
+
+    return _class;
+  }();
+
+  return _class;
 
 })));
