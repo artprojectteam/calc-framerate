@@ -9,6 +9,7 @@
     "start": "NODE_ENV=development npm-run-all -p _rollup:w",
     "build": "NODE_ENV=development npm-run-all -s _lint _rollup",
     "release": "NODE_ENV=production npm-run-all -s _lint _rollup",
+    "serve": "browser-sync start --config bs-config.js",
     "_lint": "eslint src/index.js",
     "_rollup": "rollup -c rollup.config.js",
     "_rollup:w": "rollup -c rollup.config.js --watch"
