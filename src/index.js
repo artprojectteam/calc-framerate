@@ -26,14 +26,14 @@ export default class {
    * @param {number} [fps=30.0]
    * @param {number} [speed=30]
    */
-  constructor(fps, speed){
+  constructor (fps, speed) {
     const _speed = this._checkArgument(speed, 4000)
-  
+
     this._fps = this._checkArgument(fps, 30.0)
     this._start = this._getTime()
-    this._sheet =((_speed / 1000) * this._fps) >> 0
+    this._sheet = ((_speed / 1000) * this._fps) >> 0
   }
-  
+
   /**
    * argument check
    * @param arg {*} initialize argument
@@ -41,33 +41,33 @@ export default class {
    * @returns {number}
    * @private
    */
-  _checkArgument(arg, def){
+  _checkArgument (arg, def) {
     return arg !== undefined && typeof arg === 'number' ? arg : def
   }
-  
+
   /**
    * get now time
    * @returns {*|number}
    * @private
    */
-  _getTime(){
+  _getTime () {
     return (_NOW_ && _NOW_.call(performance)) || (new Date().getTime())
   }
-  
+
   /**
    * start to 0 -> n
    * @returns {number}
    */
-  onAsc(){
+  onAsc () {
     const time = this._getTime()
     return Math.floor((time - this._start) / (1000.0 / this._fps) % this._sheet)
   }
-  
+
   /**
    * start to n -> 0
    * @returns {number}
    */
-  onDesc(){
+  onDesc () {
     const frame = this.onAsc()
     return Math.floor(this._sheet - 1 - frame)
   }
