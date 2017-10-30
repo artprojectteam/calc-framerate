@@ -1,4 +1,6 @@
-const _NOW_ = window.performance && (performance.now || performance.mozNow || performance.oNow || performance.webkitNow)
+const _NOW_ = window.performance &&
+  (performance.now || performance.mozNow || performance.oNow ||
+    performance.webkitNow)
 
 /**
  * @example
@@ -24,27 +26,14 @@ export default class {
   /**
    * setting
    * @param {number} [fps=30.0]
-   * @param {number} [speed=30]
+   * @param {number} [speed=4000]
    */
-  constructor (fps, speed) {
-    const _speed = this._checkArgument(speed, 4000)
-
-    this._fps = this._checkArgument(fps, 30.0)
+  constructor (fps = 30.0, speed = 4000) {
+    this._fps = fps
     this._start = this._getTime()
-    this._sheet = ((_speed / 1000) * this._fps) >> 0
+    this._sheet = ((speed / 1000) * this._fps) >> 0
   }
-
-  /**
-   * argument check
-   * @param arg {*} initialize argument
-   * @param def {number} default setting number
-   * @returns {number}
-   * @private
-   */
-  _checkArgument (arg, def) {
-    return arg !== undefined && typeof arg === 'number' ? arg : def
-  }
-
+  
   /**
    * get now time
    * @returns {*|number}
@@ -53,7 +42,7 @@ export default class {
   _getTime () {
     return (_NOW_ && _NOW_.call(performance)) || (new Date().getTime())
   }
-
+  
   /**
    * start to 0 -> n
    * @returns {number}
@@ -62,7 +51,7 @@ export default class {
     const time = this._getTime()
     return Math.floor((time - this._start) / (1000.0 / this._fps) % this._sheet)
   }
-
+  
   /**
    * start to n -> 0
    * @returns {number}

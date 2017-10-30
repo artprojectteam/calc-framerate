@@ -162,30 +162,17 @@ https://github.com/artprojectteam/calc-framerate
     /**
      * setting
      * @param {number} [fps=30.0]
-     * @param {number} [speed=30]
+     * @param {number} [speed=4000]
      */
-    function _class(fps, speed) {
+    function _class() {
+      var fps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 30.0;
+      var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4000;
       classCallCheck(this, _class);
 
-      var _speed = this._checkArgument(speed, 4000);
-
-      this._fps = this._checkArgument(fps, 30.0);
+      this._fps = fps;
       this._start = this._getTime();
-      this._sheet = _speed / 1000 * this._fps >> 0;
+      this._sheet = speed / 1000 * this._fps >> 0;
     }
-
-    /**
-     * argument check
-     * @param arg {*} initialize argument
-     * @param def {number} default setting number
-     * @returns {number}
-     * @private
-     */
-
-
-    _class.prototype._checkArgument = function _checkArgument(arg, def) {
-      return arg !== undefined && typeof arg === 'number' ? arg : def;
-    };
 
     /**
      * get now time
