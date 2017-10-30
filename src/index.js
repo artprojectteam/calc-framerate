@@ -32,6 +32,15 @@ export default class {
     this._fps = fps
     this._start = this._getTime()
     this._sheet = ((speed / 1000) * this._fps) >> 0
+    
+    
+    // error
+    if (typeof fps !== 'number') {
+      console.error(`'${fps}' is not number. 'fps' must be numeric.`)
+    }
+    if (typeof speed !== 'number') {
+      console.error(`'${speed}' is not number. 'speed' must be numeric.`)
+    }
   }
   
   /**
