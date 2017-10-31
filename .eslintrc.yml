@@ -9,15 +9,20 @@ env:
   commonjs: true
 
 rules:
-  strict: 0
-  semi: 0
+  strict: off
+  semi: off
   indent:
     - error
     - 2
-  no-console: 1
-  no-undef: 2
-  no-empty: 2
-  no-var: 2
+  no-console:
+    - 2
+    - allow:
+      - warn
+      - error
+  no-alert: error
+  no-undef: error
+  no-empty: error
+  no-var: error
   no-mixed-spaces-and-tabs: 2
 globals:
   TimelineLite: false
@@ -53,4 +58,4 @@ globals:
   ThrowPropsPlugin: false
   BezierPlugin: false
   PIXI: false
-  moment: false  
+  moment: false
