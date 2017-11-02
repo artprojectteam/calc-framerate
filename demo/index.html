@@ -7,19 +7,125 @@
   <meta name="google" content="notranslate">
   <title>Calculating Frame Rate</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
+  <style>
+    html {
+      font-size: 10px;
+    }
+
+    body {
+      font: 1.8rem/1 'helvetica Neue', sans-serif;
+    }
+
+    .inner-pd {
+      padding: 2rem;
+    }
+
+    .header {
+      background: #eeeeee;
+    }
+
+    .header-title {
+      margin: 0;
+      padding: 1rem 0;
+    }
+
+    .footer {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .footer-copy {
+      font-size: 1.2rem;
+    }
+  </style>
 </head>
 <body>
 
+<header class="header inner-pd">
+  <h1 class="header-title">Calculating frame rate at used by 'requestAnimationFrame'</h1>
+</header>
+
+<main class="main">
+
+  <article class="container inner-pd">
+    <h2 class="container-title">FPS: 30fps | SPEED: 4000ms</h2>
+
+    <div id="def" class="container-box">
+      <section class="sec">
+        <h3 class="sec-title">ASC</h3>
+        <div class="sec-result">0</div>
+      </section>
+
+      <section class="sec">
+        <h3 class="sec-title">DESC</h3>
+        <div class="sec-result">0</div>
+      </section>
+    </div>
+  </article>
+
+  <article class="container inner-pd">
+    <h2 class="container-title">FPS: 60fps | SPEED: 2000ms</h2>
+
+    <div id="custom" class="container-box">
+      <section class="sec">
+        <h3 class="sec-title">ASC</h3>
+        <div class="sec-result">0</div>
+      </section>
+
+      <section class="sec">
+        <h3 class="sec-title">DESC</h3>
+        <div class="sec-result">0</div>
+      </section>
+    </div>
+  </article>
+
+
+</main>
+
+
+<footer class="footer inner-pd">
+  <small class="footer-copy">&copy; Nobuyuki Kondo.</small>
+</footer>
+
 <script src="calc_framerate.js"></script>
 <script>
-  var frame = new CalcFrameRate()
-  console.log(frame)
+  var def_frame = new CalcFrameRate()
+  var def = {
+    html: document.getElementById('def').getElementsByClassName('sec-result'),
+    count: [0, 0],
+    old: [-1, -1],
+  }
 
-  var frame2 = new CalcFrameRate('60')
-  var frame3 = new CalcFrameRate(40.0, '5000')
-  var frame4 = new CalcFrameRate('aaa', 5000)
-  var frame5 = new CalcFrameRate(60.0, 'bbb')
-//  var frame6 = new CalcFrameRate('aaaa', 'bbb')
+  var custom_frame = new CalcFrameRate(60.0, 2000)
+  var custom = {
+    html: document.getElementById('custom').getElementsByClassName('sec-result'),
+    count: [0, 0],
+    old: [-1, -1],
+  }
+
+  function calc (frame, obj) {
+    for (let i = 0, iLen = frame.length; i < iLen; i++) {
+      obj.html[i].innerHTML = frame[i] + ' - ' + obj.count[i]
+
+      if (frame[i] === 0 && frame[i] !== obj.old[i]) {
+        obj.count[i]++
+      }
+
+      obj.old[i] = frame[i]
+    }
+  }
+
+  function render () {
+    // Default
+    calc([def_frame.onAsc(), def_frame.onDesc()], def)
+
+    // Custom
+    calc([custom_frame.onAsc(), custom_frame.onDesc()], custom)
+
+    requestAnimationFrame(render)
+  }
+
+  render()
 </script>
 </body>
 </html>

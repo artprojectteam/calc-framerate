@@ -6,4 +6,218 @@ License: MIT
 
 https://github.com/artprojectteam/calc-framerate
 */
-!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):e.CalcFrameRate=t()}(this,function(){"use strict";!function(){function e(e){this.value=e}function t(t){function n(r,i){try{var u=t[r](i),s=u.value;s instanceof e?Promise.resolve(s.value).then(function(e){n("next",e)},function(e){n("throw",e)}):o(u.done?"return":"normal",u.value)}catch(e){o("throw",e)}}function o(e,t){switch(e){case"return":r.resolve({value:t,done:!0});break;case"throw":r.reject(t);break;default:r.resolve({value:t,done:!1})}(r=r.next)?n(r.key,r.arg):i=null}var r,i;this._invoke=function(e,t){return new Promise(function(o,u){var s={key:e,arg:t,resolve:o,reject:u,next:null};i?i=i.next=s:(r=i=s,n(e,t))})},"function"!=typeof t.return&&(this.return=void 0)}"function"==typeof Symbol&&Symbol.asyncIterator&&(t.prototype[Symbol.asyncIterator]=function(){return this}),t.prototype.next=function(e){return this._invoke("next",e)},t.prototype.throw=function(e){return this._invoke("throw",e)},t.prototype.return=function(e){return this._invoke("return",e)}}();var e=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},t=window.performance&&(performance.now||performance.mozNow||performance.oNow||performance.webkitNow);return function(){function n(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:30,o=arguments.length>1&&void 0!==arguments[1]?arguments[1]:4e3;e(this,n),this._fps=t,this._start=this._getTime(),this._sheet=o/1e3*this._fps>>0,"number"!=typeof t&&console.error("'"+t+"' is not number. 'fps' must be numeric."),"number"!=typeof o&&console.error("'"+o+"' is not number. 'speed' must be numeric.")}return n.prototype._getTime=function(){return t&&t.call(performance)||(new Date).getTime()},n.prototype.onAsc=function(){var e=this._getTime();return Math.floor((e-this._start)/(1e3/this._fps)%this._sheet)},n.prototype.onDesc=function(){var e=this.onAsc();return Math.floor(this._sheet-1-e)},n}()});
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global.CalcFrameRate = factory());
+}(this, (function () { 'use strict';
+
+  var asyncGenerator = function () {
+    function AwaitValue(value) {
+      this.value = value;
+    }
+
+    function AsyncGenerator(gen) {
+      var front, back;
+
+      function send(key, arg) {
+        return new Promise(function (resolve, reject) {
+          var request = {
+            key: key,
+            arg: arg,
+            resolve: resolve,
+            reject: reject,
+            next: null
+          };
+
+          if (back) {
+            back = back.next = request;
+          } else {
+            front = back = request;
+            resume(key, arg);
+          }
+        });
+      }
+
+      function resume(key, arg) {
+        try {
+          var result = gen[key](arg);
+          var value = result.value;
+
+          if (value instanceof AwaitValue) {
+            Promise.resolve(value.value).then(function (arg) {
+              resume("next", arg);
+            }, function (arg) {
+              resume("throw", arg);
+            });
+          } else {
+            settle(result.done ? "return" : "normal", result.value);
+          }
+        } catch (err) {
+          settle("throw", err);
+        }
+      }
+
+      function settle(type, value) {
+        switch (type) {
+          case "return":
+            front.resolve({
+              value: value,
+              done: true
+            });
+            break;
+
+          case "throw":
+            front.reject(value);
+            break;
+
+          default:
+            front.resolve({
+              value: value,
+              done: false
+            });
+            break;
+        }
+
+        front = front.next;
+
+        if (front) {
+          resume(front.key, front.arg);
+        } else {
+          back = null;
+        }
+      }
+
+      this._invoke = send;
+
+      if (typeof gen.return !== "function") {
+        this.return = undefined;
+      }
+    }
+
+    if (typeof Symbol === "function" && Symbol.asyncIterator) {
+      AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
+        return this;
+      };
+    }
+
+    AsyncGenerator.prototype.next = function (arg) {
+      return this._invoke("next", arg);
+    };
+
+    AsyncGenerator.prototype.throw = function (arg) {
+      return this._invoke("throw", arg);
+    };
+
+    AsyncGenerator.prototype.return = function (arg) {
+      return this._invoke("return", arg);
+    };
+
+    return {
+      wrap: function (fn) {
+        return function () {
+          return new AsyncGenerator(fn.apply(this, arguments));
+        };
+      },
+      await: function (value) {
+        return new AwaitValue(value);
+      }
+    };
+  }();
+
+
+
+
+
+  var classCallCheck = function (instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  };
+
+  var _NOW_ = window.performance && (performance.now || performance.mozNow || performance.oNow || performance.webkitNow);
+
+  /**
+   * @example
+   * var frame = new FrameRate(30.0, 4000)
+   *
+   * function render(){
+   *   requestAnimationFrame(render);
+   *
+   *   var asc = frame.onAsc();
+   *   if(asc === 0){
+   *     // frame start 0 -> n
+   *   }
+   *
+   *   var desc = frame.onDesc();
+   *   if(desc === 0){
+   *     // frame start n -> 0
+   *   }
+   * }
+   *
+   * render();
+   */
+
+  var _class = function () {
+    /**
+     * setting
+     * @param {number} [fps=30.0]
+     * @param {number} [speed=4000]
+     */
+    function _class() {
+      var fps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 30.0;
+      var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4000;
+      classCallCheck(this, _class);
+
+      this._fps = fps;
+      this._start = this._getTime();
+      this._sheet = speed / 1000 * this._fps >> 0;
+
+      // error
+      if (typeof fps !== 'number') {
+        console.error('\'' + fps + '\' is not number. \'fps\' must be numeric.');
+      }
+      if (typeof speed !== 'number') {
+        console.error('\'' + speed + '\' is not number. \'speed\' must be numeric.');
+      }
+    }
+
+    /**
+     * get now time
+     * @returns {*|number}
+     * @private
+     */
+
+
+    _class.prototype._getTime = function _getTime() {
+      return _NOW_ && _NOW_.call(performance) || new Date().getTime();
+    };
+
+    /**
+     * start to 0 -> n
+     * @returns {number}
+     */
+
+
+    _class.prototype.onAsc = function onAsc() {
+      var time = this._getTime();
+      return Math.floor((time - this._start) / (1000.0 / this._fps) % this._sheet);
+    };
+
+    /**
+     * start to n -> 0
+     * @returns {number}
+     */
+
+
+    _class.prototype.onDesc = function onDesc() {
+      var frame = this.onAsc();
+      return Math.floor(this._sheet - 1 - frame);
+    };
+
+    return _class;
+  }();
+
+  return _class;
+
+})));
