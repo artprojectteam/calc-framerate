@@ -14,7 +14,9 @@ Calculating frame rate at used by 'requestAnimationFrame'
 
 requestAnimationFrame自体はIE9で使用できないので、使用する際はpolyfillを使用してください。
 
-## Use browser
+## Usage
+
+### Use browser
 
 ```html
 <script src="/path/to/dist/calc_framerate.js"></script>
@@ -23,7 +25,7 @@ var Frame = new CalcFrameRate()
 </script>
 ```
 
-## Use npm install
+### Use npm install
 
 ```bash
 $ npm i -D calc-framerate
@@ -34,7 +36,7 @@ $ npm i -D calc-framerate
 import CalcFrameRate from 'calc-framerate'
 ```
 
-## Usage
+## Document
 
 ### initialize
 
@@ -52,22 +54,24 @@ const Frame2 = new CalcFrameRate(30.0, 4000);
 | fps | 30.0 |
 | speed | 4000 |
 
+#### return
+
+object
 
 ### onAsc()
 
-0,1,2,3...と昇順でフレーム番号を取得する。  
-0が設定した秒数のタイミング。
+カウントアップで設定したスピードごとにtrueを返す
 
 ```babel
 const Frame = new CalcFrameRate(30.0, 4000);
 
 function render(){
-  requestAnimationFrame(render)
-  
-  const frame = Frame.onAsc()
-  if(frame === 0){
+  const is_just = Frame.onAsc()
+  if(is_just === true){
     // 何か処理
    }
+   
+   requestAnimationFrame(render)
 }
 
 render()
@@ -76,22 +80,25 @@ render()
 #### options
 
 なし
+
+#### return
+
+boolean
 
 ### onDesc()
 
-...3,2,1,0と降順でフレーム番号を取得する。  
-0が設定した秒数のタイミング。
+カウントダウンで設定したスピードごとにtrueを返す
 
 ```babel
 const Frame = new CalcFrameRate(30.0, 4000);
 
 function render(){
-  requestAnimationFrame(render)
-  
-  const frame = Frame.onDesc()
-  if(frame === 0){
+  const is_just = Frame.onDesc()
+  if(is_just === true){
     // 何か処理
    }
+   
+   requestAnimationFrame(render)
 }
 
 render()
@@ -100,3 +107,63 @@ render()
 #### options
 
 なし
+
+#### return
+
+boolean
+
+
+
+### onAscFrame()
+
+0,1,2,3...と昇順でフレーム番号を取得する。  
+
+```babel
+const Frame = new CalcFrameRate(30.0, 4000);
+
+function render(){
+  const frame = Frame.onAscFrame()
+  if(frame === 0){
+    // 何か処理
+   }
+   
+   requestAnimationFrame(render)
+}
+
+render()
+```
+
+#### options
+
+なし
+
+#### return
+
+number
+
+### onDescFrame()
+
+...3,2,1,0と降順でフレーム番号を取得する。  
+
+```babel
+const Frame = new CalcFrameRate(30.0, 4000);
+
+function render(){
+  const frame = Frame.onDescFrame()
+  if(frame === 0){
+    // 何か処理
+   }
+   
+   requestAnimationFrame(render)
+}
+
+render()
+```
+
+#### options
+
+なし
+
+#### return
+
+number

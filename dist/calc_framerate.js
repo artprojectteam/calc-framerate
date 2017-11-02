@@ -172,9 +172,12 @@ https://github.com/artprojectteam/calc-framerate
       this._fps = fps;
       this._start = this._getTime();
       this._sheet = speed / 1000 * this._fps >> 0;
+      this._old = {
+        asc: -1,
+        desc: -1
 
-      // error
-      if (typeof fps !== 'number') {
+        // error
+      };if (typeof fps !== 'number') {
         console.error('\'' + fps + '\' is not number. \'fps\' must be numeric.');
       }
       if (typeof speed !== 'number') {
@@ -194,12 +197,40 @@ https://github.com/artprojectteam/calc-framerate
     };
 
     /**
+     * timing is just (ASC)
+     * @returns {boolean}
+     */
+
+
+    _class.prototype.onAsc = function onAsc() {
+      var asc = this.onAscFrame();
+      var is_just = asc === 0 && this._old.asc !== asc;
+
+      this._old.asc = asc;
+      return is_just;
+    };
+
+    /**
+     * timing is just (DESC)
+     * @returns {boolean}
+     */
+
+
+    _class.prototype.onDesc = function onDesc() {
+      var desc = this.onDescFrame();
+      var is_just = desc === 0 && this._old.desc !== desc;
+
+      this._old.desc = desc;
+      return is_just;
+    };
+
+    /**
      * start to 0 -> n
      * @returns {number}
      */
 
 
-    _class.prototype.onAsc = function onAsc() {
+    _class.prototype.onAscFrame = function onAscFrame() {
       var time = this._getTime();
       return Math.floor((time - this._start) / (1000.0 / this._fps) % this._sheet);
     };
@@ -210,8 +241,8 @@ https://github.com/artprojectteam/calc-framerate
      */
 
 
-    _class.prototype.onDesc = function onDesc() {
-      var frame = this.onAsc();
+    _class.prototype.onDescFrame = function onDescFrame() {
+      var frame = this.onAscFrame();
       return Math.floor(this._sheet - 1 - frame);
     };
 

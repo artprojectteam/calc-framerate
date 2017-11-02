@@ -32,7 +32,10 @@ export default class {
     this._fps = fps
     this._start = this._getTime()
     this._sheet = ((speed / 1000) * this._fps) >> 0
-    
+    this._old = {
+      asc: -1,
+      desc: -1,
+    }
     
     // error
     if (typeof fps !== 'number') {
@@ -53,10 +56,34 @@ export default class {
   }
   
   /**
+   * timing is just (ASC)
+   * @returns {boolean}
+   */
+  onAsc () {
+    const asc = this.onAscFrame()
+    const is_just = asc === 0 && this._old.asc !== asc
+    
+    this._old.asc = asc
+    return is_just
+  }
+  
+  /**
+   * timing is just (DESC)
+   * @returns {boolean}
+   */
+  onDesc () {
+    const desc = this.onDescFrame()
+    const is_just = desc === 0 && this._old.desc !== desc
+    
+    this._old.desc = desc
+    return is_just
+  }
+  
+  /**
    * start to 0 -> n
    * @returns {number}
    */
-  onAsc () {
+  onAscFrame () {
     const time = this._getTime()
     return Math.floor((time - this._start) / (1000.0 / this._fps) % this._sheet)
   }
@@ -65,8 +92,8 @@ export default class {
    * start to n -> 0
    * @returns {number}
    */
-  onDesc () {
-    const frame = this.onAsc()
+  onDescFrame () {
+    const frame = this.onAscFrame()
     return Math.floor(this._sheet - 1 - frame)
   }
 }
