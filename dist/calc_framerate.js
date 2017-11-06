@@ -1,5 +1,5 @@
 /*!
-Calculating Frame Rate v0.0.1
+Calculating Frame Rate v1.0.0
 Calculating frame rate at used by requestAnimationFrame
 Copyright (c) 2017 Nobuyuki Kondo
 License: MIT
@@ -162,16 +162,16 @@ https://github.com/artprojectteam/calc-framerate
     /**
      * setting
      * @param {number} [fps=30.0]
-     * @param {number} [speed=4000]
+     * @param {number} [ms=4000]
      */
     function _class() {
       var fps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 30.0;
-      var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4000;
+      var ms = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4000;
       classCallCheck(this, _class);
 
       this._fps = fps;
       this._start = this._getTime();
-      this._sheet = speed / 1000 * this._fps >> 0;
+      this._sheet = ms / 1000 * this._fps >> 0;
       this._old = {
         asc: -1,
         desc: -1
@@ -180,8 +180,8 @@ https://github.com/artprojectteam/calc-framerate
       };if (typeof fps !== 'number') {
         console.error('\'' + fps + '\' is not number. \'fps\' must be numeric.');
       }
-      if (typeof speed !== 'number') {
-        console.error('\'' + speed + '\' is not number. \'speed\' must be numeric.');
+      if (typeof ms !== 'number') {
+        console.error('\'' + ms + '\' is not number. \'speed\' must be numeric.');
       }
     }
 

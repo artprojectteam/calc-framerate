@@ -26,12 +26,12 @@ export default class {
   /**
    * setting
    * @param {number} [fps=30.0]
-   * @param {number} [speed=4000]
+   * @param {number} [ms=4000]
    */
-  constructor (fps = 30.0, speed = 4000) {
+  constructor (fps = 30.0, ms = 4000) {
     this._fps = fps
     this._start = this._getTime()
-    this._sheet = ((speed / 1000) * this._fps) >> 0
+    this._sheet = ((ms / 1000) * this._fps) >> 0
     this._old = {
       asc: -1,
       desc: -1,
@@ -41,8 +41,8 @@ export default class {
     if (typeof fps !== 'number') {
       console.error(`'${fps}' is not number. 'fps' must be numeric.`)
     }
-    if (typeof speed !== 'number') {
-      console.error(`'${speed}' is not number. 'speed' must be numeric.`)
+    if (typeof ms !== 'number') {
+      console.error(`'${ms}' is not number. 'speed' must be numeric.`)
     }
   }
   

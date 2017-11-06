@@ -9,7 +9,7 @@
 ![Android 4.4以上](https://img.shields.io/badge/Android-4.4+-green.svg)
 
 Calculating frame rate at used by 'requestAnimationFrame'  
-FPSを基準に取得したいミリ秒までの合計フレーム数を計算し、結果を返却するライブラリ。
+FPSを基準に取得したいミリ秒までの合計フレーム数を計算し、requestAnimationFrame内で利用することで、指定したミリ秒の時かどうかの結果を返却するライブラリ。
 
 
 ## Caution
@@ -51,10 +51,10 @@ const Frame2 = new CalcFrameRate(30.0, 4000);
 
 引数は省略可能。
 
-| params | default |
-| ---  | --- |
-| fps | 30.0 |
-| speed | 4000 |
+| params | default | |
+| ---  | --- | --- |
+| fps | 30.0 | FPS |
+| ms | 4000 | ミリ秒 |
 
 #### return
 
