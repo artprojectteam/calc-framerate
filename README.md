@@ -60,7 +60,7 @@ const Frame2 = new CalcFrameRate(30.0, 4000);
 
 object
 
-### onAsc()
+### isAscTrue()
 
 カウントアップで呼び出したタイミングが設定したミリ秒ならtrueを返す。  
 フレーム数が0からスタートのため、スタート直後もtrueを返す。  
@@ -70,7 +70,7 @@ object
 const Frame = new CalcFrameRate(30.0, 4000);
 
 function render(){
-  const is_just = Frame.onAsc()
+  const is_just = Frame.isAscTrue()
   if(is_just === true){
     // 何か処理
    }
@@ -89,7 +89,7 @@ render()
 
 boolean
 
-### onDesc()
+### isDescTrue()
 
 カウントダウンで呼び出したタイミングが設定したミリ秒ならtrueを返す。  
 フレーム総数から始まるので、スタート直後はfalseになる。  
@@ -98,7 +98,7 @@ boolean
 const Frame = new CalcFrameRate(30.0, 4000);
 
 function render(){
-  const is_just = Frame.onDesc()
+  const is_just = Frame.isDescTrue()
   if(is_just === true){
     // 何か処理
    }
