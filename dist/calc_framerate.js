@@ -1,5 +1,5 @@
 /*!
-Calculating Frame Rate v1.0.1
+Calculating Frame Rate v1.1.0
 Calculating frame rate at used by requestAnimationFrame
 Copyright (c) 2017 Nobuyuki Kondo
 License: MIT
