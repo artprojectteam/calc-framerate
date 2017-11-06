@@ -1,5 +1,5 @@
 /*!
-Calculating Frame Rate v1.0.0
+Calculating Frame Rate v1.0.1
 Calculating frame rate at used by requestAnimationFrame
 Copyright (c) 2017 Nobuyuki Kondo
 License: MIT
@@ -202,7 +202,7 @@ https://github.com/artprojectteam/calc-framerate
      */
 
 
-    _class.prototype.onAsc = function onAsc() {
+    _class.prototype.isAscTrue = function isAscTrue() {
       var asc = this.onAscFrame();
       var is_just = asc === 0 && this._old.asc !== asc;
 
@@ -216,7 +216,7 @@ https://github.com/artprojectteam/calc-framerate
      */
 
 
-    _class.prototype.onDesc = function onDesc() {
+    _class.prototype.isDescTrue = function isDescTrue() {
       var desc = this.onDescFrame();
       var is_just = desc === 0 && this._old.desc !== desc;
 

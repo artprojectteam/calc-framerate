@@ -59,7 +59,7 @@ export default class {
    * timing is just (ASC)
    * @returns {boolean}
    */
-  onAsc () {
+  isAscTrue () {
     const asc = this.onAscFrame()
     const is_just = asc === 0 && this._old.asc !== asc
     
@@ -71,7 +71,7 @@ export default class {
    * timing is just (DESC)
    * @returns {boolean}
    */
-  onDesc () {
+  isDescTrue () {
     const desc = this.onDescFrame()
     const is_just = desc === 0 && this._old.desc !== desc
     

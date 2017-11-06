@@ -115,10 +115,10 @@
 
   function render () {
     // Default
-    calc([def_frame.onAscFrame(), def_frame.onDescFrame()], [def_frame.onAsc(), def_frame.onDesc()], def)
+    calc([def_frame.onAscFrame(), def_frame.onDescFrame()], [def_frame.isAscTrue(), def_frame.isDescTrue()], def)
 
     // Custom
-    calc([custom_frame.onAscFrame(), custom_frame.onDescFrame()], [custom_frame.onAsc(), custom_frame.onDesc()], custom)
+    calc([custom_frame.onAscFrame(), custom_frame.onDescFrame()], [custom_frame.isAscTrue(), custom_frame.isDescTrue()], custom)
 
     requestAnimationFrame(render)
   }
